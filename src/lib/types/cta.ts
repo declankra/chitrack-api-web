@@ -252,4 +252,232 @@ export interface StopArrivalsResponse {
     directionName?: string;
     route: string;
     arrivals: Arrival[];
-} 
+}
+
+///////////////////////////////
+//        Bus Types          
+///////////////////////////////
+
+export interface BusRoute {
+    /** CTA route code (e.g., "20") */
+    id: string;
+    /** Human-friendly route name (e.g., "Madison") */
+    name: string;
+    /** Optional short code if distinct from id */
+    shortName?: string;
+    /** HEX color string supplied by CTA (e.g., "#3366CC") */
+    color?: string;
+    /** Optional contrasting text color */
+    textColor?: string;
+    /** Lowercased slug provided by CTA (rtdd) */
+    slug?: string;
+}
+
+export interface BusDirection {
+    /** Direction identifier returned by CTA (e.g., "Eastbound") */
+    id: string;
+    /** Human-friendly name to display */
+    name: string;
+}
+
+export interface BusStop {
+    /** CTA stop id */
+    id: string;
+    /** Display name */
+    name: string;
+    /** Latitude */
+    latitude: number;
+    /** Longitude */
+    longitude: number;
+    /** Sequence order provided by CTA (if available) */
+    sequence?: number;
+    /** Route this stop belongs to (when provided) */
+    routeId?: string;
+    /** Direction identifier (when provided) */
+    directionId?: string;
+}
+
+export type BusDynamicActionSeverity = "info" | "warning" | "critical";
+
+export interface BusPredictionDynamicAction {
+    /** Numeric action id from CTA dynamic message */
+    id: number;
+    /** Optional code (CTA labels) */
+    code?: string;
+    /** Short label for badge rendering */
+    label: string;
+    /** Longer description shown in detail views */
+    description?: string;
+    /** Optional severity classification */
+    severity?: BusDynamicActionSeverity;
+}
+
+export interface BusPrediction {
+    /** Route code */
+    routeId: string;
+    /** Stop identifier */
+    stopId: string;
+    /** Stop name */
+    stopName?: string;
+    /** Direction / headsign */
+    directionId?: string;
+    /** Destination or headsign text */
+    destination?: string;
+    /** Vehicle identifier associated with the prediction */
+    vehicleId?: string;
+    /** CTA countdown string (e.g., "5", "DUE") */
+    countdown?: string;
+    /** ISO timestamp when CTA generated the prediction */
+    generatedAt?: string;
+    /** ISO timestamp of the predicted arrival */
+    predictedArrival?: string;
+    /** ISO timestamp reported as the response timestamp */
+    sourceTimestamp?: string;
+    /** Minutes until arrival, derived locally */
+    minutesUntil?: number;
+    /** Whether CTA indicates the bus is due */
+    isDue?: boolean;
+    /** CTA delay indicator */
+    isDelayed?: boolean;
+    /** Additional CTA flags */
+    flags?: string[];
+    /** CTA dynamic action payload */
+    dynamicAction?: BusPredictionDynamicAction;
+}
+
+export interface BusVehicle {
+    /** Vehicle id (CTA vid) */
+    vehicleId: string;
+    /** Current route code */
+    routeId?: string;
+    /** Direction identifier */
+    directionId?: string;
+    /** Latitude */
+    latitude: number;
+    /** Longitude */
+    longitude: number;
+    /** Heading in degrees */
+    heading?: number;
+    /** Pattern id vehicle is currently on */
+    patternId?: string;
+    /** ISO timestamp of last update */
+    lastUpdated?: string;
+    /** Predicted arrival time at next stop (ISO) */
+    predictedArrival?: string;
+    /** Next stop id */
+    nextStopId?: string;
+    /** Next stop name */
+    nextStopName?: string;
+    /** Destination name */
+    destination?: string;
+    /** Distance from terminal in miles */
+    distanceFromTerminal?: number;
+    /** CTA delay indicator */
+    isDelayed?: boolean;
+}
+
+export interface BusPatternPoint {
+    /** Sequence order from CTA */
+    sequence: number;
+    /** Latitude */
+    latitude: number;
+    /** Longitude */
+    longitude: number;
+    /** Point type ("W" waypoint, "S" stop, etc.) */
+    type?: string;
+    /** Stop id when point is a stop */
+    stopId?: string;
+    /** Stop name when provided */
+    stopName?: string;
+    /** Distance from start in miles */
+    distanceFromStart?: number;
+}
+
+export interface BusPattern {
+    /** CTA pattern id */
+    id: string;
+    /** Route code */
+    routeId: string;
+    /** Direction identifier */
+    directionId?: string;
+    /** Optional polyline string */
+    polyline?: string;
+    /** Ordered list of pattern points */
+    points: BusPatternPoint[];
+}
+
+export interface BusDetour {
+    /** CTA detour id */
+    id: string;
+    /** Affected route code (if provided) */
+    routeId?: string;
+    /** Optional direction or headsign text */
+    directionId?: string;
+    /** Start timestamp (ISO) */
+    start: string;
+    /** End timestamp (ISO, optional) */
+    end?: string;
+    /** Short headline */
+    headline?: string;
+    /** Detailed description */
+    description?: string;
+    /** Additional URL provided by CTA */
+    url?: string;
+    /** CTA supplied reason */
+    reason?: string;
+    /** Last updated timestamp in ISO format */
+    lastUpdated?: string;
+}
+
+export interface BusTime {
+    /** CTA server time in ISO format */
+    currentTime: string;
+}
+
+export interface BusApiMeta {
+    /** CTA supplied timestamp for response data */
+    sourceUpdatedAt?: string;
+    /** Server timestamp when request completed */
+    queriedAt: string;
+    /** TTL applied to cache entries in milliseconds */
+    cacheTtlMs?: number;
+    /** ISO timestamp when cached entry expires */
+    cacheExpiresAt?: string;
+    /** Cache identifier used internally */
+    cacheKey?: string;
+    /** CTA endpoint invoked (e.g., "getroutes") */
+    ctaEndpoint: string;
+    /** Params sent to CTA (stringified) */
+    paramsUsed: Record<string, string | number>;
+    /** Optional reason hint when CTA returns no data */
+    reason?: string;
+    /** HTTP status code returned to client */
+    status?: number;
+    /** Indicates if response was served from cache */
+    servedFromCache?: boolean;
+}
+
+export interface BusApiSuccess<T> {
+    data: T;
+    error: null;
+    meta: BusApiMeta;
+}
+
+export interface BusErrorDetail {
+    code: string;
+    message: string;
+    details?: string;
+}
+
+export interface BusApiError {
+    data: null;
+    error: BusErrorDetail;
+    meta: BusApiMeta;
+}
+
+export type BusApiResponse<T> = BusApiSuccess<T> | BusApiError;
+
+export interface BusRawError {
+    code?: string;
+    msg: string;
+}

@@ -43,7 +43,10 @@ export const parseCtaDate = (dateString: string): Date | null => {
     const month = +datePart.slice(4, 6) - 1; // zero-based
     const day = +datePart.slice(6, 8);
     
-    const [hour, minute, second] = timePart.split(":").map(Number);
+    const timePieces = timePart.split(":");
+    const hour = Number(timePieces[0] ?? 0);
+    const minute = Number(timePieces[1] ?? 0);
+    const second = Number(timePieces[2] ?? 0);
     
     const date = new Date(year, month, day, hour, minute, second);
     return isNaN(date.getTime()) ? null : date;
