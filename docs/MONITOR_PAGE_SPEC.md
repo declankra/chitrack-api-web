@@ -1571,7 +1571,7 @@ type MonitorAction =
   | { type: 'SELECT_STATION'; stationId: string | null }
   | { type: 'SELECT_ROUTE'; route: RouteColor | null }
   | { type: 'SELECT_TRAIN'; runNumber: string | null }
-  | { type: 'OPEN_DRILL_DOWN'; type: 'station' | 'route'; id: string }
+  | { type: 'OPEN_DRILL_DOWN'; drillType: 'station' | 'route'; id: string }
   | { type: 'CLOSE_DRILL_DOWN' }
   | { type: 'SET_AUTO_REFRESH'; enabled: boolean }
   | { type: 'UPDATE_LAST_REFRESH'; key: string; time: Date };
@@ -1655,7 +1655,7 @@ function monitorReducer(state: MonitorState, action: MonitorAction): MonitorStat
     case 'OPEN_DRILL_DOWN':
       return {
         ...state,
-        drillDownType: action.type,
+        drillDownType: action.drillType,
         drillDownId: action.id,
       };
 
@@ -1701,11 +1701,11 @@ export function MonitorProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const openStationDetail = useCallback((stationId: string) => {
-    dispatch({ type: 'OPEN_DRILL_DOWN', type: 'station', id: stationId });
+    dispatch({ type: 'OPEN_DRILL_DOWN', drillType: 'station', id: stationId });
   }, []);
 
   const openRouteDetail = useCallback((route: RouteColor) => {
-    dispatch({ type: 'OPEN_DRILL_DOWN', type: 'route', id: route });
+    dispatch({ type: 'OPEN_DRILL_DOWN', drillType: 'route', id: route });
   }, []);
 
   const closeDrillDown = useCallback(() => {

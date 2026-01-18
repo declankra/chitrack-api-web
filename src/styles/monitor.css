@@ -20,8 +20,8 @@
   --monitor-text-secondary: 230 8% 68%;
   --monitor-text-muted: 230 6% 42%;
 
-  /* Accent colors (neon-inspired) */
-  --monitor-accent-cyan: 195 100% 50%;
+  /* Accent colors (neutral, no cyan tint) */
+  --monitor-accent-cyan: 0 0% 92%;
   --monitor-accent-green: 155 100% 50%;
   --monitor-accent-amber: 38 100% 50%;
   --monitor-accent-red: 350 100% 63%;
