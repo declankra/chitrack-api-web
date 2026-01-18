@@ -1,0 +1,349 @@
+/**
+ * Monitor Page Styles
+ * Command center dark theme with futuristic aesthetics
+ */
+
+/* Monitor-specific CSS variables */
+.monitor-theme {
+  /* Base colors - Near black with blue tint */
+  --monitor-bg-primary: 230 20% 4%;
+  --monitor-bg-secondary: 230 15% 8%;
+  --monitor-bg-tertiary: 230 12% 12%;
+  --monitor-bg-hover: 230 10% 16%;
+
+  /* Border & Dividers */
+  --monitor-border: 230 15% 18%;
+  --monitor-border-glow: 230 20% 28%;
+
+  /* Text hierarchy */
+  --monitor-text-primary: 230 10% 95%;
+  --monitor-text-secondary: 230 8% 68%;
+  --monitor-text-muted: 230 6% 42%;
+
+  /* Accent colors (neon-inspired) */
+  --monitor-accent-cyan: 195 100% 50%;
+  --monitor-accent-green: 155 100% 50%;
+  --monitor-accent-amber: 38 100% 50%;
+  --monitor-accent-red: 350 100% 63%;
+  --monitor-accent-purple: 270 100% 70%;
+
+  /* CTA Line colors (brightened for dark mode) */
+  --cta-red: 350 90% 40%;
+  --cta-blue: 195 100% 43%;
+  --cta-brown: 25 55% 25%;
+  --cta-green: 145 100% 30%;
+  --cta-orange: 14 95% 55%;
+  --cta-purple: 270 70% 37%;
+  --cta-pink: 330 70% 65%;
+  --cta-yellow: 54 100% 48%;
+
+  /* Status indicators */
+  --status-nominal: 155 100% 50%;
+  --status-degraded: 38 100% 50%;
+  --status-critical: 350 100% 63%;
+  --status-unknown: 230 6% 42%;
+
+  /* Override shadcn variables for monitor pages */
+  --background: var(--monitor-bg-primary);
+  --foreground: var(--monitor-text-primary);
+  --card: var(--monitor-bg-secondary);
+  --card-foreground: var(--monitor-text-primary);
+  --popover: var(--monitor-bg-secondary);
+  --popover-foreground: var(--monitor-text-primary);
+  --primary: var(--monitor-accent-cyan);
+  --primary-foreground: 230 20% 4%;
+  --secondary: var(--monitor-bg-tertiary);
+  --secondary-foreground: var(--monitor-text-primary);
+  --muted: var(--monitor-bg-tertiary);
+  --muted-foreground: var(--monitor-text-muted);
+  --accent: var(--monitor-bg-hover);
+  --accent-foreground: var(--monitor-text-primary);
+  --destructive: var(--monitor-accent-red);
+  --destructive-foreground: var(--monitor-text-primary);
+  --border: var(--monitor-border);
+  --input: var(--monitor-border);
+  --ring: var(--monitor-accent-cyan);
+}
+
+/* Panel styling */
+.monitor-panel {
+  background: hsl(var(--monitor-bg-secondary));
+  border: 1px solid hsl(var(--monitor-border));
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.monitor-panel-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid hsl(var(--monitor-border));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.monitor-panel-title {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', ui-monospace, monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(var(--monitor-text-secondary));
+}
+
+/* Scanline overlay (subtle CRT effect) */
+.monitor-scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Grid pattern background */
+.monitor-grid-pattern {
+  background-image:
+    linear-gradient(hsl(var(--monitor-border) / 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--monitor-border) / 0.5) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Glowing border effect */
+.monitor-glow-border {
+  box-shadow:
+    0 0 0 1px hsl(var(--monitor-border)),
+    0 0 20px -5px hsl(var(--monitor-accent-cyan) / 0.3);
+}
+
+/* Pulse animation for live indicators */
+@keyframes monitor-pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 5px currentColor;
+  }
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 15px currentColor;
+  }
+}
+
+.monitor-pulse {
+  animation: monitor-pulse-glow 2s infinite;
+}
+
+/* Status indicator dot */
+.monitor-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.monitor-status-nominal {
+  background-color: hsl(var(--status-nominal));
+  box-shadow: 0 0 8px hsl(var(--status-nominal) / 0.5);
+}
+
+.monitor-status-degraded {
+  background-color: hsl(var(--status-degraded));
+  box-shadow: 0 0 8px hsl(var(--status-degraded) / 0.5);
+}
+
+.monitor-status-critical {
+  background-color: hsl(var(--status-critical));
+  box-shadow: 0 0 8px hsl(var(--status-critical) / 0.5);
+  animation: monitor-pulse-glow 1s infinite;
+}
+
+/* Line status cards */
+.line-status-card {
+  background: hsl(var(--monitor-bg-secondary));
+  border: 1px solid hsl(var(--monitor-border));
+  border-radius: 6px;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+}
+
+.line-status-card:hover {
+  background: hsl(var(--monitor-bg-hover));
+  border-color: hsl(var(--monitor-border-glow));
+}
+
+/* CTA Line color classes for monitor */
+.monitor-line-red { color: hsl(var(--cta-red)); }
+.monitor-line-blue { color: hsl(var(--cta-blue)); }
+.monitor-line-brown { color: hsl(var(--cta-brown)); }
+.monitor-line-green { color: hsl(var(--cta-green)); }
+.monitor-line-orange { color: hsl(var(--cta-orange)); }
+.monitor-line-purple { color: hsl(var(--cta-purple)); }
+.monitor-line-pink { color: hsl(var(--cta-pink)); }
+.monitor-line-yellow { color: hsl(var(--cta-yellow)); }
+
+.monitor-line-bg-red { background-color: hsl(var(--cta-red)); }
+.monitor-line-bg-blue { background-color: hsl(var(--cta-blue)); }
+.monitor-line-bg-brown { background-color: hsl(var(--cta-brown)); }
+.monitor-line-bg-green { background-color: hsl(var(--cta-green)); }
+.monitor-line-bg-orange { background-color: hsl(var(--cta-orange)); }
+.monitor-line-bg-purple { background-color: hsl(var(--cta-purple)); }
+.monitor-line-bg-pink { background-color: hsl(var(--cta-pink)); }
+.monitor-line-bg-yellow { background-color: hsl(var(--cta-yellow)); }
+
+/* Monospace text for data displays */
+.monitor-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', ui-monospace, monospace;
+}
+
+/* Data value styling */
+.monitor-value {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', ui-monospace, monospace;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: hsl(var(--monitor-text-primary));
+}
+
+.monitor-value-sm {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', ui-monospace, monospace;
+  font-size: 0.875rem;
+  color: hsl(var(--monitor-text-primary));
+}
+
+.monitor-label {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(var(--monitor-text-muted));
+}
+
+/* Scrollbar styling for monitor */
+.monitor-theme ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.monitor-theme ::-webkit-scrollbar-track {
+  background: hsl(var(--monitor-bg-primary));
+}
+
+.monitor-theme ::-webkit-scrollbar-thumb {
+  background: hsl(var(--monitor-border));
+  border-radius: 3px;
+}
+
+.monitor-theme ::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--monitor-border-glow));
+}
+
+/* Map controls positioning for monitor */
+.monitor-map .mapboxgl-ctrl-bottom-right {
+  bottom: 60px !important;
+  right: 10px !important;
+}
+
+.monitor-map .mapboxgl-ctrl-group {
+  background: hsl(var(--monitor-bg-secondary)) !important;
+  border: 1px solid hsl(var(--monitor-border)) !important;
+}
+
+.monitor-map .mapboxgl-ctrl-group button {
+  background-color: transparent !important;
+  color: hsl(var(--monitor-text-primary)) !important;
+}
+
+.monitor-map .mapboxgl-ctrl-group button:hover {
+  background-color: hsl(var(--monitor-bg-hover)) !important;
+}
+
+/* Live train marker styling */
+.monitor-train-marker {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.monitor-train-marker:hover {
+  transform: scale(1.2);
+}
+
+.monitor-train-marker.delayed {
+  animation: monitor-pulse-glow 1.5s infinite;
+}
+
+/* Alert card styling */
+.monitor-alert-card {
+  background: hsl(var(--monitor-bg-tertiary));
+  border-left: 3px solid;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.monitor-alert-card.severity-critical {
+  border-left-color: hsl(var(--status-critical));
+  background: hsl(var(--status-critical) / 0.1);
+}
+
+.monitor-alert-card.severity-major {
+  border-left-color: hsl(var(--status-degraded));
+  background: hsl(var(--status-degraded) / 0.1);
+}
+
+.monitor-alert-card.severity-minor {
+  border-left-color: hsl(var(--monitor-accent-cyan));
+  background: hsl(var(--monitor-accent-cyan) / 0.05);
+}
+
+.monitor-alert-card.severity-info {
+  border-left-color: hsl(var(--monitor-text-muted));
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1439px) {
+  .monitor-sidebar {
+    position: fixed;
+    right: 0;
+    top: 56px;
+    bottom: 0;
+    width: 320px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 40;
+  }
+
+  .monitor-sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 1023px) {
+  .monitor-sidebar {
+    width: 100%;
+    top: auto;
+    bottom: 0;
+    height: 50vh;
+    transform: translateY(100%);
+    border-radius: 16px 16px 0 0;
+  }
+
+  .monitor-sidebar.open {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 767px) {
+  .monitor-header {
+    padding: 8px 12px;
+  }
+
+  .monitor-ticker {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .monitor-panel-title {
+    font-size: 0.65rem;
+  }
+}

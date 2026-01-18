@@ -2100,38 +2100,38 @@ Uses CTA's ttfollow endpoint to get detailed train information.
 ### Phase 1: Foundation (Week 1-2)
 **Core infrastructure and basic display**
 
-- [ ] Create `/monitor` route and layout
-- [ ] Implement dark theme CSS variables
-- [ ] Build `MonitorHeader` component
-- [ ] Set up `MonitorProvider` context
-- [ ] Create basic `MonitorMapComponent` (extend existing)
-- [ ] Build `BottomTicker` with line status
-- [ ] Implement `/api/monitor/status` endpoint
-- [ ] Implement `/api/monitor/trains/positions` endpoint
+- [x] Create `/monitor` route and layout
+- [x] Implement dark theme CSS variables
+- [x] Build `MonitorHeader` component
+- [x] Set up `MonitorProvider` context
+- [x] Create basic `MonitorMapComponent` (extend existing)
+- [x] Build `BottomTicker` with line status
+- [x] Implement `/api/monitor/status` endpoint
+- [x] Implement `/api/monitor/trains/positions` endpoint
 
 **Deliverable:** Basic monitor page with map showing live train positions and line status ticker.
 
 ### Phase 2: Data Panels (Week 3-4)
 **Weather, alerts, and analytics**
 
-- [ ] Implement `/api/monitor/weather` endpoint
-- [ ] Build `WeatherPanel` component
-- [ ] Implement `/api/monitor/alerts` endpoint
-- [ ] Build `AlertsPanel` component
-- [ ] Design and build `DelayAnalyticsPanel` component
-- [ ] Implement `/api/monitor/analytics/delays` endpoint (basic version)
-- [ ] Create right sidebar layout with collapsible panels
+- [x] Implement `/api/monitor/weather` endpoint
+- [x] Build `WeatherPanel` component
+- [x] Implement `/api/monitor/alerts` endpoint
+- [x] Build `AlertsPanel` component
+- [x] Design and build `DelayAnalyticsPanel` component
+- [x] Implement `/api/monitor/analytics/delays` endpoint (basic version)
+- [x] Create right sidebar layout with collapsible panels
 
 **Deliverable:** Functional sidebar with weather, alerts, and basic analytics.
 
 ### Phase 3: Social & Advanced Analytics (Week 5-6)
 **Social feed and enhanced analytics**
 
-- [ ] Research and implement social media API integration
-- [ ] Build `SocialFeedPanel` component
-- [ ] Implement sentiment analysis (basic keyword matching)
-- [ ] Enhance delay analytics with historical data
-- [ ] Add sparkline charts and visualizations
+- [x] Research and implement social media API integration
+- [x] Build `SocialFeedPanel` component
+- [x] Implement sentiment analysis (basic keyword matching)
+- [x] Enhance delay analytics with historical data
+- [x] Add sparkline charts and visualizations
 - [ ] Implement data persistence for analytics (if needed)
 
 **Deliverable:** Social feed panel and enhanced analytics visualizations.
@@ -2139,11 +2139,11 @@ Uses CTA's ttfollow endpoint to get detailed train information.
 ### Phase 4: Drill-Down Views (Week 7-8)
 **Detailed station and route views**
 
-- [ ] Build `StationDetailModal` component
-- [ ] Build `RouteDetailModal` component
-- [ ] Implement `/api/monitor/trains/follow` endpoint
-- [ ] Build `FollowTrainPanel` component
-- [ ] Add drill-down animations and transitions
+- [x] Build `StationDetailModal` component
+- [x] Build `RouteDetailModal` component
+- [x] Implement `/api/monitor/trains/follow` endpoint
+- [x] Build `FollowTrainPanel` component
+- [x] Add drill-down animations and transitions
 - [ ] Implement breadcrumb navigation
 
 **Deliverable:** Complete drill-down functionality for stations, routes, and trains.
@@ -2152,9 +2152,9 @@ Uses CTA's ttfollow endpoint to get detailed train information.
 **Performance, accessibility, and UX refinement**
 
 - [ ] Optimize map rendering (clustering, LOD)
-- [ ] Add keyboard navigation support
-- [ ] Implement responsive layouts for tablet/mobile
-- [ ] Add loading skeletons and error states
+- [x] Add keyboard navigation support
+- [x] Implement responsive layouts for tablet/mobile
+- [x] Add loading skeletons and error states
 - [ ] Performance profiling and optimization
 - [ ] Add WebSocket support for real-time updates (optional)
 - [ ] A11y audit and fixes

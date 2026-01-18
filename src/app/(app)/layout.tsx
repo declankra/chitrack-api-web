@@ -26,6 +26,7 @@ export default function AppLayout({
 }>) {
   const pathname = usePathname();
   const shouldShowDock = !['/'].includes(pathname);
+  const isMonitorRoute = pathname.startsWith('/monitor');
   const queryClientRef = useRef<QueryClient | null>(null);
 
   // Create or reuse a query client
@@ -60,6 +61,10 @@ export default function AppLayout({
       refetchInterval: false, // Don't auto-refetch station metadata
     });
   }, []);
+
+  if (isMonitorRoute) {
+    return <>{children}</>;
+  }
 
   return (
     // Full-width background container
