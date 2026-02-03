@@ -57,6 +57,6 @@
     "typescript": "^5"
   },
   "overrides": {
-    "tar": "7.5.6"
+    "tar": "7.5.7"
   }
 }
