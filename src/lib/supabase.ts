@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-let supabase: ReturnType<typeof createClient>;
+let supabase: any;
 
-export const getSupabase = () => {
+export const getSupabase = (): any => {
   if (supabase) return supabase;
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -12,6 +12,6 @@ export const getSupabase = () => {
     throw new Error('Missing Supabase URL or anonymous key.');
   }
 
-  supabase = createClient(supabaseUrl, supabaseAnonKey);
+  supabase = createClient<any>(supabaseUrl, supabaseAnonKey);
   return supabase;
 };

@@ -8,7 +8,7 @@ import { headers } from 'next/headers';
  */
 export async function GET() {
   // Basic security: Check referer to prevent unauthorized access
-  const headersList = headers();
+  const headersList = await headers();
   const referer = headersList.get('referer') || '';
   const host = headersList.get('host') || '';
   
