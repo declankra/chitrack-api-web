@@ -502,7 +502,7 @@ export interface TrainPositionsResponse {
   count: number;
 }
 
-export interface SystemStatusResponse extends SystemStatus {}
+export type SystemStatusResponse = SystemStatus;
 
 // ============================================
 // Re-export types from cta.ts

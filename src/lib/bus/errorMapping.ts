@@ -125,7 +125,7 @@ export const mapBusApiError = (error: unknown, context: ErrorContext): BusApiErr
         code: "CTA_BUS_UNKNOWN_ERROR",
         message: "Unexpected error contacting CTA Bus Tracker.",
     };
-    let meta: BusApiMeta = {
+    const meta: BusApiMeta = {
         sourceUpdatedAt: context.sourceUpdatedAt,
         queriedAt,
         cacheTtlMs: context.cacheTtlMs,
