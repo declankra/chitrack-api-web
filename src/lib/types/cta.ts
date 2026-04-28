@@ -481,3 +481,40 @@ export interface BusRawError {
     code?: string;
     msg: string;
 }
+
+///////////////////////////////
+//        Nearby Types
+///////////////////////////////
+
+export interface BusStopCatalogEntry {
+    id: string;
+    name: string;
+    lat: number;
+    lng: number;
+    directionLabel?: string;
+}
+
+export interface NearbyTrainStation {
+    stationId: string;
+    stationName: string;
+    lat: number;
+    lng: number;
+    distanceMeters: number;
+    stops: StationStop[];
+    arrivals?: Arrival[];
+}
+
+export interface NearbyBusStop {
+    stopId: string;
+    stopName: string;
+    lat: number;
+    lng: number;
+    distanceMeters: number;
+    predictions?: BusPrediction[];
+}
+
+export interface NearbyResponseData {
+    trainStations: NearbyTrainStation[];
+    busStops: NearbyBusStop[];
+    origin: { lat: number; lng: number; radiusMeters: number };
+}

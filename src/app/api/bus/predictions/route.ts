@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { callBusApi, buildBusApiMeta, createBaseMeta } from "@/lib/bus/ctaBusClient";
-import { normalizePredictions, type PredictionsPayload } from "@/lib/bus/normalizers";
+import { buildBusApiMeta, createBaseMeta } from "@/lib/bus/ctaBusClient";
+import { normalizePredictions } from "@/lib/bus/normalizers";
 import { mapBusApiError } from "@/lib/bus/errorMapping";
+import { buildBusPredictionsCacheKey, callBusPredictions } from "@/lib/nearby/arrivalsFanOut";
 import type { BusApiError, BusApiSuccess, BusPrediction } from "@/lib/types/cta";
 
 export const dynamic = "force-dynamic";
 
 const ENDPOINT = "getpredictions";
-const DEFAULT_CACHE_TTL_MS = 15_000;
 
 const collectStopIds = (searchParams: URLSearchParams): string[] => {
     const multi = searchParams.getAll("stpid");
@@ -48,22 +48,11 @@ export async function GET(request: NextRequest) {
     }
 
     const stpidParam = stopIds.join(",");
-    const cacheTtlMs = top || vehicleId ? 0 : DEFAULT_CACHE_TTL_MS;
-    const cacheKey = `bus:${ENDPOINT}:${stpidParam}:${routeId ?? ""}:${vehicleId ?? ""}:${top ?? ""}`;
+    const cacheKey = buildBusPredictionsCacheKey(stpidParam, { routeId, vehicleId, top });
+    const cacheTtlMs = top || vehicleId ? 0 : 15_000;
 
     try {
-        const result = await callBusApi<PredictionsPayload>({
-            endpoint: ENDPOINT,
-            params: {
-                stpid: stpidParam,
-                rt: routeId,
-                top,
-                vid: vehicleId,
-            },
-            requiredParams: ["stpid"],
-            cacheKey,
-            cacheTtlMs,
-        });
+        const result = await callBusPredictions(stopIds, { routeId, vehicleId, top });
         const data = normalizePredictions(result.payload);
         const meta = buildBusApiMeta(result, { status: 200 });
 
