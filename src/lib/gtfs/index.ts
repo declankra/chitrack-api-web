@@ -47,7 +47,7 @@ interface GtfsStop {
  * Downloads the CTA GTFS zip file from the official CTA resource URL.
  * Stores it at GTFS_TEMP_PATH for processing.
  */
-async function downloadGtfsFile(): Promise<void> {
+export async function downloadGtfsFile(): Promise<void> {
   const response = await fetch(GTFS_URL);
   if (!response.ok || !response.body) {
     throw new Error(`Failed to download GTFS file: ${response.statusText}`);
@@ -66,7 +66,7 @@ async function downloadGtfsFile(): Promise<void> {
  * Reads the stops.txt file from the downloaded GTFS zip file,
  * then parses it as CSV, returning an array of GtfsStop objects.
  */
-async function parseStops(): Promise<GtfsStop[]> {
+export async function parseStops(): Promise<GtfsStop[]> {
   const stops: GtfsStop[] = [];
 
   // Use unzipper to open the GTFS zip archive
@@ -108,7 +108,7 @@ async function parseStops(): Promise<GtfsStop[]> {
  *     - lat, lon => numeric
  *     - wheelchairBoarding => "0", "1", or "2" from GTFS to indicate accessibility
  */
-function transformStops(gtfsStops: GtfsStop[]): Station[] {
+export function transformStops(gtfsStops: GtfsStop[]): Station[] {
   const stationMap = new Map<string, Station>();
 
   // 1) Create Station entries for each row with location_type=1
@@ -186,4 +186,12 @@ export async function fetchGtfsStations(): Promise<Station[]> {
     console.error('Error fetching GTFS data:', error);
     throw error;
   }
-} 
+}
+
+export async function cleanupGtfsTempFile(): Promise<void> {
+  try {
+    await unlink(GTFS_TEMP_PATH);
+  } catch {
+    // best-effort; missing file is fine
+  }
+}
