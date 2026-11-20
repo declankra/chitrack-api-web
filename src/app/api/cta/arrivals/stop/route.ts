@@ -1,6 +1,7 @@
 // src/app/api/cta/arrivals/stop/route.ts
 import { NextRequest, NextResponse } from "next/server"
 import { Arrival, ArrivalsApiResponse, StopArrivalsResponse } from "@/lib/types/cta"
+import { isTrainFeedDown, TRAIN_FEED_DOWN_MESSAGE } from "@/lib/utilities/trainFeedStatus"
 
 export const dynamic = 'force-dynamic';
 
@@ -243,11 +244,20 @@ export async function GET(request: NextRequest) {
     // Directly fetch fresh data for the stop
     const result = await fetchFreshStopData(stopId);
 
+    // An empty list means "no trains" to the app, so do not send one when CTA's feed is down
+    if (result.arrivals.length === 0 && (await isTrainFeedDown())) {
+      return NextResponse.json({ error: TRAIN_FEED_DOWN_MESSAGE }, { status: 503 });
+    }
+
     // Return the fresh data
     return NextResponse.json(result);
 
   } catch (error: any) {
     console.error("Error in Stop Arrivals API route:", error);
+    // The rider reached us, so a CTA failure is not their internet connection
+    if (await isTrainFeedDown()) {
+      return NextResponse.json({ error: TRAIN_FEED_DOWN_MESSAGE }, { status: 503 });
+    }
     return NextResponse.json(
       { 
         error: "It looks like we couldn't fetch live data, which can happen if your internet connection was temporarily lost. Please check your connection and try again.", 
