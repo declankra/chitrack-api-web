@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Providers } from './providers';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Agentation } from "agentation";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -94,6 +95,8 @@ export default function RootLayout({
           <main className="w-full overflow-x-hidden">{children}<SpeedInsights /></main>
           <Footer />
         </Providers>
+        {/* the feedback toolbar: local dev and Vercel previews, never production */}
+        {(process.env.NODE_ENV === "development" || process.env.VERCEL_ENV === "preview") && <Agentation />}
       </body>
     </html>
   );

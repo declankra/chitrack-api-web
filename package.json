@@ -22,6 +22,7 @@
     "@types/node-fetch": "^2.6.12",
     "@types/unzipper": "^0.10.10",
     "@vercel/speed-insights": "^1.2.0",
+    "agentation": "^3.1.2",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
