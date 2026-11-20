@@ -3,6 +3,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { fetchTrainArrivalsForStations } from "@/lib/nearby/arrivalsFanOut";
+import { isTrainFeedDown, TRAIN_FEED_DOWN_MESSAGE } from "@/lib/utilities/trainFeedStatus";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +35,12 @@ export async function GET(request: NextRequest) {
     }
 
     const arrivalData = await fetchTrainArrivalsForStations(stationIds);
+
+    // An empty list means "no trains" to the app, so do not send one when CTA's feed is down
+    if (arrivalData.length === 0 && (await isTrainFeedDown())) {
+      return NextResponse.json({ error: TRAIN_FEED_DOWN_MESSAGE }, { status: 503 });
+    }
+
     return NextResponse.json(arrivalData);
   } catch (error) {
     console.error("Error in station arrivals API route:", error);
